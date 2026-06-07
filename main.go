@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/redis/go-redis/v9"
+	"github.com/whalelogic/employee"
 )
 
 func main() {
