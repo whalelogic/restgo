@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/redis/go-redis/v9"
-	"github.com/whalelogic/employee"
+	"github.com/whalelogic/restgo/employee"
 )
 
 func main() {
@@ -15,8 +15,8 @@ func main() {
 		addr = "localhost:6379"
 	}
 
-	h := &EmployeeHandler{
-		rdb: redis.NewClient(&redis.Options{Addr: addr}),
+	h := &employee.EmployeeHandler{
+		Rdb: redis.NewClient(&redis.Options{Addr: addr}),
 	}
 
 	mux := http.NewServeMux()

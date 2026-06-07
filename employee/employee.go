@@ -17,7 +17,7 @@ type Employee struct {
 }
 
 type EmployeeHandler struct {
-	rdb *redis.Client
+	Rdb *redis.Client
 }
 
 const employeeSet = "employees"
@@ -28,7 +28,7 @@ func empKey(id string) string {
 
 func (h *EmployeeHandler) List(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
-	ids, err := h.rdb.SMembers(ctx, employeeSet).Result()
+	ids, err := h.Rdb.SMembers(ctx, employeeSet).Result()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -36,7 +36,7 @@ func (h *EmployeeHandler) List(w http.ResponseWriter, r *http.Request) {
 
 	employees := make([]Employee, 0, len(ids))
 	for _, id := range ids {
-		val, err := h.rdb.Get(ctx, empKey(id)).Result()
+		val, err := h.Rdb.Get(ctx, empKey(id)).Result()
 		if err != nil {
 			continue
 		}
@@ -60,7 +60,7 @@ func (h *EmployeeHandler) Get(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 	id := r.PathValue("id")
 
-	val, err := h.rdb.Get(ctx, empKey(id)).Result()
+	val, err := h.Rdb.Get(ctx, empKey(id)).Result()
 	if err == redis.Nil {
 		http.Error(w, "not found", http.StatusNotFound)
 		return
@@ -91,11 +91,11 @@ func (h *EmployeeHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := h.rdb.Set(ctx, empKey(emp.ID), data, 0).Err(); err != nil {
+	if err := h.Rdb.Set(ctx, empKey(emp.ID), data, 0).Err(); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	if err := h.rdb.SAdd(ctx, employeeSet, emp.ID).Err(); err != nil {
+	if err := h.Rdb.SAdd(ctx, employeeSet, emp.ID).Err(); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -122,11 +122,11 @@ func (h *EmployeeHandler) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := h.rdb.Set(ctx, empKey(id), data, 0).Err(); err != nil {
+	if err := h.Rdb.Set(ctx, empKey(id), data, 0).Err(); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	if err := h.rdb.SAdd(ctx, employeeSet, id).Err(); err != nil {
+	if err := h.Rdb.SAdd(ctx, employeeSet, id).Err(); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -139,7 +139,7 @@ func (h *EmployeeHandler) Patch(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 	id := r.PathValue("id")
 
-	val, err := h.rdb.Get(ctx, empKey(id)).Result()
+	val, err := h.Rdb.Get(ctx, empKey(id)).Result()
 	if err == redis.Nil {
 		http.Error(w, "not found", http.StatusNotFound)
 		return
@@ -172,7 +172,7 @@ func (h *EmployeeHandler) Patch(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := h.rdb.Set(ctx, empKey(id), data, 0).Err(); err != nil {
+	if err := h.Rdb.Set(ctx, empKey(id), data, 0).Err(); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -185,7 +185,7 @@ func (h *EmployeeHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 	id := r.PathValue("id")
 
-	deleted, err := h.rdb.Del(ctx, empKey(id)).Result()
+	deleted, err := h.Rdb.Del(ctx, empKey(id)).Result()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -194,7 +194,7 @@ func (h *EmployeeHandler) Delete(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "not found", http.StatusNotFound)
 		return
 	}
-	if err := h.rdb.SRem(ctx, employeeSet, id).Err(); err != nil {
+	if err := h.Rdb.SRem(ctx, employeeSet, id).Err(); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
