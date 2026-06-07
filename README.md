@@ -25,45 +25,14 @@ export REDIS_ADDR="127.0.0.1:6379"
 
 The service listens on port `:8080`.
 
-**Method**
-
-**Endpoint**
-
-**Description**
-
-`GET`
-
-`/employees`
-
-List all employees
-
-`GET`
-
-`/employees/{id}`
-
-Get employee by ID
-
-`POST`
-
-`/employees`
-
-Create a new employee
-
-`PUT`
-
-`/employees/{id}`
-
-Fully update/replace an employee
-
-`PATCH`
-
-`/employees/{id}`
-
-Partially update an employee
-
-`DELETE`
-
-`/employees/{id}`
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/employees` | List all employees |
+| `GET` | `/employees/{id}` | Get employee by ID |
+| `POST` | `/employees` | Create a new employee |
+| `PUT` | `/employees/{id}` | Fully update/replace an employee |
+| `PATCH` | `/employees/{id}` | Partially update an employee |
+| `DELETE` | `/employees/{id}` | Delete an employee |
 
 Delete an employee
 
