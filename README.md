@@ -1,5 +1,5 @@
 
-# Employee RESTful API
+# 👨‍💼Employee RESTful API
 
 A lightweight RESTful API for managing employee records built with **Go** (standard library `net/http`) and **Redis**.
 
