@@ -34,7 +34,6 @@ The service listens on port `:8080`.
 | `PATCH` | `/employees/{id}` | Partially update an employee |
 | `DELETE` | `/employees/{id}` | Delete an employee |
 
-Delete an employee
 
 ## cURL Examples
 
